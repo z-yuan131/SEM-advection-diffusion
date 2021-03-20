@@ -1,2 +1,2 @@
 # SEM-advection-diffusion
-# SEM-advection-diffusion
+KTH SEM course G01
