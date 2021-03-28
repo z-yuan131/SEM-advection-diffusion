@@ -9,6 +9,7 @@ import numpy as np
 from math import pi
 import math
 from numpy.linalg import norm
+
 from scipy.linalg import solve_banded
 from scipy.sparse import csr_matrix
 import matplotlib.pyplot as plt
@@ -64,8 +65,8 @@ def main():
 
 
 def Initialization():
-    nel = 6                                     #element number
-    ord = 15                                    #number of the Gauss_Lobatto_Legendre points
+    nel = 5                                     #element number
+    ord = 20                                    #number of the Gauss_Lobatto_Legendre points
     L = 1                                       #domain size
     x = np.linspace(0,L,nel+1)                  #grid points
 
@@ -259,9 +260,9 @@ def global_matrix(M_e,M_g,L_e,L_g,D_e,D_g,nel,A,R):
     return M_g,L_g,D_g
 
 
-def solver_pre(M_g,L_g,D_g,dt,u,xe):
+def solver_pre(M_g,L_g,D_g,dt,u,xe,c,nv):
 
-    rhs = M_g - 1 * D_g * dt - 0.1 * L_g * dt               #advection speed = 1, nv = 0.1
+    rhs = M_g - c * D_g * dt - nv * L_g * dt               #advection speed = 1, nv = 0.1
 
 
 
@@ -283,13 +284,15 @@ def solver(x_total,L,M_g,L_g,D_g,xe,R):
     uu = u
 
     tfinal = 0.1                                            #final time
-    CFL = 0.0001                                            #related to stability analysis, this number can be larger
     c = 1
-    dt = CFL*(x_total[2]-x_total[1])/c
-    step = math.floor(tfinal/dt)
-    # step = 1
+    nv = 0.1
 
-    coeffMat = solver_pre(M_g,L_g,D_g,dt,u,xe)
+    dt = stability(M_g,L_g,D_g,c,nv)                   #related to stability analysis, this dt is optimal
+
+    step = math.floor(tfinal/dt)
+    
+
+    coeffMat = solver_pre(M_g,L_g,D_g,dt,u,xe,c,nv)
 
 
     for t in range(step):
@@ -297,6 +300,25 @@ def solver(x_total,L,M_g,L_g,D_g,xe,R):
         print('physical time = '+str(dt+t*dt))
 
     return u,uu,x_total
+    
+def stability(M_g,L_g,D_g,c,nv):
+    from numpy import linalg as LA                          #complex eigenvalue
+
+    AA = nv * L_g + c * D_g
+    M_g_n = M_g * 1                                         #not to overwrite
+    for i in range(M_g.shape[0]):
+        M_g_n[i,i] = 1 / M_g[i,i]
+        
+    AA = np.matmul(M_g_n,AA)
+    w, v = LA.eig(AA)                                       #eigenvalue of stability matrix
+    dt = 1
+    for i in range(w.shape[0]):
+        dt_n = 1 / (w.real[i] ** 2 + w.imag[i] ** 2)
+        if dt_n < dt :
+            dt = dt_n                                       #find smallest dt, make sure that dt is in that circle
+    dt = np.sqrt(dt)
+    
+    return dt
 
 def plot(x_total,u,uu):
 
