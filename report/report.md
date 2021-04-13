@@ -1,16 +1,27 @@
 ---
-title: G01 Report
-authors: A. Perez, A. V. Mohanan, M. Moniri, Z. Yuan
-tags: Templates, Talk
-description: Spectral element method and discrete operators
+title: Spectral element method and discrete operators 
+date: April 13, 2021
+author:
+- A. Perez
+- A. V. Mohanan
+- M. Moniri
+- Z. Yuan
+keywords: Templates, Talk
+abstract: |
+  Report of the topics covered by groups G01 and G02. The report was made
+  collaboratively by the authors in an [online HackMD
+  document](https://hackmd.io/@jmtW1K-nT5O31NGGrCd6Pg/ByZNQkZH_) with
+  accompanying [presentation](https://hackmd.io/@ashwinvis/B1PY2JorO)
+documentclass: scrartcl
+geometry:
+- margin=1in
+hyperrefoptions:
+colorlinks: true
 ---
-
-Link: https://hackmd.io/@jmtW1K-nT5O31NGGrCd6Pg/ByZNQkZH_
 
 # Continuous Galerkin formulation
 
-Based on posing problems in their variational (weak) form which is an equivalent integral form to that of their classical representation.
-## Take advection-diffusion equation as an example:
+Based on posing problems in their variational (weak) form which is an equivalent integral form to that of their classical representation. Take advection-diffusion equation as an example:
 Expressed in strong form:
 \begin{equation}
 \frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} =  \nu \frac{\partial^{2}u}{\partial{x}^{2}}
@@ -89,11 +100,9 @@ In the modal approach, the chosen basis are a known parameter and the coefficien
 In the nodal approach, the coefficients are simply nodal values of a given function, while the polynomial basis must be constructed.
 
 They each provide different advantages or properties that can be exploited.
+
 ## Legendre Polynomials (Modal Basis)
 
-
- 
- 
  Legendre polynomial of order $k$, which is denoted by $L_k(x)$, is the eigensolution of the legendre differential equation which is shown below:
 \begin{align}
 {\displaystyle {-\frac {d}{dx}}\left(\left(1-x^{2}\right){\frac {d}{dx}L_k(x)}\right)=k(k+1)L_k(x)}
@@ -102,13 +111,11 @@ They each provide different advantages or properties that can be exploited.
 Legendre polynomials can be defined in many ways, and the various definitions highlight different aspects as well as suggest generalizations and connections to different mathematical structures and physical and numerical applications. In physical settings, Legendre's differential equation arises naturally whenever one solves Laplace's equation (and related partial differential equations) by separation of variables in spherical coordinates.
  
 
- 
----
-
 ### Visual representation
 
 The first six Legendre polynomials are:
 
+$$
 \begin{array}{r|r}
  n & L_n(x) \\
 \hline
@@ -120,18 +127,9 @@ The first six Legendre polynomials are:
  5 & \tfrac18 \left(63x^5-70x^3+15x\right) \\
 \hline
 \end{array}
-
-<!--  6 & \tfrac1{16} \left(231x^6-315x^4+105x^2-5\right) \\
- 7 & \tfrac1{16} \left(429x^7-693x^5+315x^3-35x\right) \\
- 8 & \tfrac1{128} \left(6435x^8-12012x^6+6930x^4-1260x^2+35\right) \\
- 9 & \tfrac1{128} \left(12155x^9-25740x^7+18018x^5-4620x^3+315x\right) \\
-10 & \tfrac1{256} \left(46189x^{10}-109395x^8+90090x^6-30030x^4+3465x^2-63\right) \\ -->
+$$
 
 ![Legendre Polynomials upto order 5](https://upload.wikimedia.org/wikipedia/commons/c/c8/Legendrepolynomials6.svg)
-
-
-
----
 
 ### Properties
 - Orthogonality: The set of Legendre polynomials form an orthogonal family, that means:
@@ -443,8 +441,11 @@ We can see only the last equation is modified. We can continue with the direvati
 \begin{equation}
 Au=F
 \end{equation}
+
 Rewrite it into the matrix format:
+
 ![](https://i.imgur.com/q0Vnj7p.png)
+
 We can see only the last term in the forcing vector is modified due to the Neumann BC.
 
 
@@ -495,7 +496,9 @@ We note that the sum of the Lagrange basis over all modes is simply '1': $\sum_{
 The last term here we call it, as defination, weight corresponding to the $p^{th}$ point in the Gauss-Lobatto-Legendre quadrature rule using $Q$ points. 
 
 As a final point, we note that the elemental Laplacian matrix using the spectral element expansion does not have any notable properties of this type and is full for all choices of quadrature order.
+
 ### Modal approach
+
 Thanks to the orthogonality of Legendre polynomail:
 \begin{align}
 \int_{-1}^1 P_m(x)P_n(x) dx = \frac{2}{2n+1}\delta_{mn} 
@@ -534,12 +537,6 @@ To shed light on some of the diferences, the structure of the mass matrix follow
 -->
 
 
-
----
----
-# G02
----
----
 
 
 # Spectral Element Method in 1D - Multiple Elements
@@ -762,7 +759,7 @@ Consider the next representation of $u$ in the reference domain$(x,y) \in \hat{\
 It is possible to use a **vector representation** of the coefficients as follows:
 
 \begin{equation}
-    \underline{u} := (u_1,u_2,\cdots,u_l,\cdots,u_\mathcal{N})^{T}=(u_{00},u_{10},\cdots,u_{IJ},\cdots,u_{MN})^{T} 
+    \underline{u} := (u_1,u_2,\cdots,u_l,\cdots,u_{\mathcal{N}})^{T}=(u_{00},u_{10},\cdots,u_{IJ},\cdots,u_{MN})^{T} 
 \end{equation}
 
 where $\mathcal{N}=(M+1)(N+1)$ is the number of basis coeficcients and the mapping $l=1+i+(M+1)j$ translates the two-index coefficient representation to standard vector form , with the leading coefficient advancing more rapidly.
