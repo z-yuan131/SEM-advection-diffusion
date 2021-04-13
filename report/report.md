@@ -995,10 +995,10 @@ Recap: evaluation of spectral operators
 - Global matrix operations are memory- and performance-wise *expensive*
 - Instead use:
     -  **Local matrix-vector products**, for example the diffusion term:
-       $\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}$    :1234: :fast_forward:
+       $$\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}$$
        *vectorizable*!
     -  **Direct stiffness summation**: consecutive gather ($Q^T$) and scatter ($Q$)
-       $\mathcal{A_L} = Q Q^T \mathcal{A^e}$ :telephone_receiver: :fast_forward:
+       $$\mathcal{A_L} = Q Q^T \mathcal{A^e}$$
        *communications*!
 
 
