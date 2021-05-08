@@ -1,10 +1,11 @@
 % Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode,}{hyperref}
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 %
 \documentclass[
-]{scrartcl}
+  a4paper,
+  10pt]{article}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -41,51 +42,16 @@
   pdfauthor={A. Perez; A. V. Mohanan; M. Moniri; Z. Yuan},
   pdfkeywords={Templates, Talk},
   colorlinks=true,
-  linkcolor={Maroon},
+  linkcolor={blue},
   filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={Blue},
+  citecolor={blue},
+  urlcolor={blue},
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
-\usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\newenvironment{Shaded}{}{}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -103,6 +69,36 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{tikz}
+% \usepackage{pgfplots}
+\usepackage{lipsum}
+\usepackage{algorithm,algpseudocode}
+
+\lstset{ %%%%%%
+  language=Fortran,
+  belowskip=-0.9 \baselineskip,
+  keywordstyle=\bfseries,
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=lines,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  tabsize=2,	                    % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  }
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -121,11 +117,6 @@ document} with accompanying
 \href{https://hackmd.io/@ashwinvis/B1PY2JorO}{presentation}
 \end{abstract}
 
-{
-\hypersetup{linkcolor=}
-\setcounter{tocdepth}{3}
-\tableofcontents
-}
 \hypertarget{continuous-galerkin-formulation}{%
 \section{Continuous Galerkin
 formulation}\label{continuous-galerkin-formulation}}
@@ -1309,25 +1300,22 @@ Compilers are smart and capable of vectorizing loops, provided:
   Dependencies are avoided, e.g.: backward substitution of a tridiagonal
   solver
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{do}\NormalTok{ i }\KeywordTok{=}\NormalTok{ n}\KeywordTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\KeywordTok{{-}}\DecValTok{1}
-\NormalTok{   x(i) }\KeywordTok{=}\NormalTok{ (b(i) }\KeywordTok{{-}}\NormalTok{ u(i) }\KeywordTok{*}\NormalTok{ x(i}\KeywordTok{+}\DecValTok{1}\NormalTok{)) }\KeywordTok{/}\NormalTok{ d(i)}
-\KeywordTok{enddo}
-\end{Highlighting}
-\end{Shaded}
+\begin{lstlisting}[language=Fortran]
+do i = n-1, 1, -1
+   x(i) = (b(i) - u(i) * x(i+1)) / d(i)
+enddo
+\end{lstlisting}
 
   would be \emph{much slower} than something like
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{do}\NormalTok{ i }\KeywordTok{=} \DecValTok{1}\NormalTok{, n}
-\NormalTok{   x(i) }\KeywordTok{=}\NormalTok{ a(i) }\KeywordTok{+}\NormalTok{ b(i)}
-\KeywordTok{enddo}
-\end{Highlighting}
-\end{Shaded}
+\begin{lstlisting}[language=Fortran]
+do i = 1, n
+   x(i) = a(i) + b(i)
+enddo
+\end{lstlisting}
 \item
-  Branching avoided: subroutines, functions, \texttt{if} statements, I/O
+  Branching avoided: subroutines, functions,
+  \passthrough{\lstinline!if!} statements, I/O
 \item
   Data locality: strides in memory are aligned with cache lines
 \end{itemize}
@@ -1348,222 +1336,214 @@ Recap: derivatives in each directions are:
 \end{itemize}
 
 Ensures data locality and vectorization. To compute the gradient of an
-array, the function \texttt{gradm1} (see the file in
-\texttt{Nek5000/core/navier5.f}) is often employed. This function
-ultimately calls the matrix-matrix multiplication \texttt{mxm}
-subroutine:
+array, the function \passthrough{\lstinline!gradm1!} (see the file in
+\passthrough{\lstinline!Nek5000/core/navier5.f!}) is often employed.
+This function ultimately calls the matrix-matrix multiplication
+\passthrough{\lstinline!mxm!} subroutine:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-       \KeywordTok{subroutine}\NormalTok{ gradm1(ux,uy,uz,u)}
-\NormalTok{ c}
-\NormalTok{ c     Compute gradient of T }\KeywordTok{{-}{-}}\NormalTok{ mesh }\DecValTok{1} \KeywordTok{to}\NormalTok{ mesh }\DecValTok{1}\NormalTok{ (vel. }\KeywordTok{to}\NormalTok{ vel.)}
-\NormalTok{ c     Output: ux, uy, uz  }\KeywordTok{|}\NormalTok{ Input: u}
-\NormalTok{ c}
-       \KeywordTok{include} \StringTok{\textquotesingle{}SIZE\textquotesingle{}}
-       \KeywordTok{include} \StringTok{\textquotesingle{}DXYZ\textquotesingle{}}
-       \KeywordTok{include} \StringTok{\textquotesingle{}GEOM\textquotesingle{}}
-       \KeywordTok{include} \StringTok{\textquotesingle{}INPUT\textquotesingle{}}
-       \KeywordTok{include} \StringTok{\textquotesingle{}TSTEP\textquotesingle{}}
-\NormalTok{ c}
-       \DataTypeTok{parameter}\NormalTok{(lxyz}\KeywordTok{=}\NormalTok{lx1}\KeywordTok{*}\NormalTok{ly1}\KeywordTok{*}\NormalTok{lz1)}
+\begin{lstlisting}[language=Fortran]
+       subroutine gradm1(ux,uy,uz,u)
+ c
+ c     Compute gradient of T -- mesh 1 to mesh 1 (vel. to vel.)
+ c     Output: ux, uy, uz  | Input: u
+ c
+       include 'SIZE'
+       include 'DXYZ'
+       include 'GEOM'
+       include 'INPUT'
+       include 'TSTEP'
+ c
+       parameter(lxyz=lx1*ly1*lz1)
  
-       \DataTypeTok{real}\NormalTok{ ux(lxyz,}\DecValTok{1}\NormalTok{),uy(lxyz,}\DecValTok{1}\NormalTok{),uz(lxyz,}\DecValTok{1}\NormalTok{),u(lxyz,}\DecValTok{1}\NormalTok{)}
+       real ux(lxyz,1),uy(lxyz,1),uz(lxyz,1),u(lxyz,1)
  
-       \CommentTok{! Scratch arrays}
-       \KeywordTok{common} \KeywordTok{/}\NormalTok{ctmp1}\KeywordTok{/}\NormalTok{ ur(lxyz),us(lxyz),ut(lxyz)}
+       ! Scratch arrays
+       common /ctmp1/ ur(lxyz),us(lxyz),ut(lxyz)
  
-       \DataTypeTok{integer}\NormalTok{ e}
+       integer e
  
-\NormalTok{       nxyz }\KeywordTok{=}\NormalTok{ lx1}\KeywordTok{*}\NormalTok{ly1}\KeywordTok{*}\NormalTok{lz1}
-\NormalTok{       ntot }\KeywordTok{=}\NormalTok{ nxyz}\KeywordTok{*}\NormalTok{nelt}
+       nxyz = lx1*ly1*lz1
+       ntot = nxyz*nelt
  
-\NormalTok{       n }\KeywordTok{=}\NormalTok{ lx1}\KeywordTok{{-}}\DecValTok{1}
-       \KeywordTok{do}\NormalTok{ e}\KeywordTok{=}\DecValTok{1}\NormalTok{,nelt}
-          \KeywordTok{if}\NormalTok{ (if3d) }\KeywordTok{then}
-             \KeywordTok{call}\NormalTok{ local\_grad3(ur,us,ut,u,n,e,dxm1,dxtm1)}
-             \KeywordTok{do}\NormalTok{ i}\KeywordTok{=}\DecValTok{1}\NormalTok{,lxyz}
-\NormalTok{                ux(i,e) }\KeywordTok{=}\NormalTok{ jacmi(i,e)}\KeywordTok{*}\NormalTok{(ur(i)}\KeywordTok{*}\NormalTok{rxm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ us(i)}\KeywordTok{*}\NormalTok{sxm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ ut(i)}\KeywordTok{*}\NormalTok{txm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e) )}
-\NormalTok{                uy(i,e) }\KeywordTok{=}\NormalTok{ jacmi(i,e)}\KeywordTok{*}\NormalTok{(ur(i)}\KeywordTok{*}\NormalTok{rym1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ us(i)}\KeywordTok{*}\NormalTok{sym1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ ut(i)}\KeywordTok{*}\NormalTok{tym1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e) )}
-\NormalTok{                uz(i,e) }\KeywordTok{=}\NormalTok{ jacmi(i,e)}\KeywordTok{*}\NormalTok{(ur(i)}\KeywordTok{*}\NormalTok{rzm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ us(i)}\KeywordTok{*}\NormalTok{szm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e)}
-\NormalTok{      $                             }\KeywordTok{+}\NormalTok{ ut(i)}\KeywordTok{*}\NormalTok{tzm1(i,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,e) )}
-          \KeywordTok{else}
-\NormalTok{             ...}
-       \KeywordTok{enddo}
-\NormalTok{ c}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+       n = lx1-1
+       do e=1,nelt
+          if (if3d) then
+             call local_grad3(ur,us,ut,u,n,e,dxm1,dxtm1)
+             do i=1,lxyz
+                ux(i,e) = jacmi(i,e)*(ur(i)*rxm1(i,1,1,e)
+      $                             + us(i)*sxm1(i,1,1,e)
+      $                             + ut(i)*txm1(i,1,1,e) )
+                uy(i,e) = jacmi(i,e)*(ur(i)*rym1(i,1,1,e)
+      $                             + us(i)*sym1(i,1,1,e)
+      $                             + ut(i)*tym1(i,1,1,e) )
+                uz(i,e) = jacmi(i,e)*(ur(i)*rzm1(i,1,1,e)
+      $                             + us(i)*szm1(i,1,1,e)
+      $                             + ut(i)*tzm1(i,1,1,e) )
+          else
+             ...
+       enddo
+ c
+       return
+       end
+\end{lstlisting}
 
 For the 2-D case the gradient is \emph{locally} evaluated with a
-matrices of shape \texttt{(lx1,\ lx1)}. Note that
-\texttt{lx1\ =\ m1\ =\ n+1} is the polynomial order plus 1 to include
-element boundaries.
+matrices of shape \passthrough{\lstinline!(lx1, lx1)!}. Note that
+\passthrough{\lstinline!lx1 = m1 = n+1!} is the polynomial order plus 1
+to include element boundaries.
 
 \begin{align}
 u_r &= D  u \\
 u_s &= u D^T
 \end{align}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-       \KeywordTok{subroutine}\NormalTok{ local\_grad3(ur,us,ut,u,N,e,D,Dt)}
-\NormalTok{ c     Output: ur,us,ut         Input:u,N,e,D,Dt}
-       \DataTypeTok{real}\NormalTok{ ur(}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n),us(}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n),ut(}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n)}
-       \DataTypeTok{real}\NormalTok{ u (}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n,}\DecValTok{1}\NormalTok{)}
-       \DataTypeTok{real}\NormalTok{ D (}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n),Dt(}\DecValTok{0}\NormalTok{:n,}\DecValTok{0}\NormalTok{:n)}
-       \DataTypeTok{integer}\NormalTok{ e}
-\NormalTok{ c}
-\NormalTok{       m1 }\KeywordTok{=}\NormalTok{ n}\KeywordTok{+}\DecValTok{1}
-\NormalTok{       m2 }\KeywordTok{=}\NormalTok{ m1}\KeywordTok{*}\NormalTok{m1}
-\NormalTok{ c}
-       \KeywordTok{call}\NormalTok{ mxm(d ,m1,u(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,e),m1,ur,m2)}
-       \KeywordTok{do}\NormalTok{ k}\KeywordTok{=}\DecValTok{0}\NormalTok{,n}
-          \KeywordTok{call}\NormalTok{ mxm(u(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,k,e),m1,dt,m1,us(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,k),m1)}
-       \KeywordTok{enddo}
-       \KeywordTok{call}\NormalTok{ mxm(u(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,e),m2,dt,m1,ut,m1)}
-\NormalTok{ c}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+\begin{lstlisting}[language=Fortran]
+       subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
+ c     Output: ur,us,ut         Input:u,N,e,D,Dt
+       real ur(0:n,0:n,0:n),us(0:n,0:n,0:n),ut(0:n,0:n,0:n)
+       real u (0:n,0:n,0:n,1)
+       real D (0:n,0:n),Dt(0:n,0:n)
+       integer e
+ c
+       m1 = n+1
+       m2 = m1*m1
+ c
+       call mxm(d ,m1,u(0,0,0,e),m1,ur,m2)
+       do k=0,n
+          call mxm(u(0,0,k,e),m1,dt,m1,us(0,0,k),m1)
+       enddo
+       call mxm(u(0,0,0,e),m2,dt,m1,ut,m1)
+ c
+       return
+       end
+\end{lstlisting}
 
 The matrices \(D\) and \(D^T\) are initialized once and stored in the
-include file \texttt{DXYZ} within a common block in \texttt{navier1.f}.
+include file \passthrough{\lstinline!DXYZ!} within a common block in
+\passthrough{\lstinline!navier1.f!}.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ c}\KeywordTok{{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\CommentTok{{-}}
-       \KeywordTok{subroutine}\NormalTok{ get\_dgll\_ptr (ip,mx,md)}
-\NormalTok{ c}
-\NormalTok{ c     Get }\DataTypeTok{pointer} \KeywordTok{to}\NormalTok{ GLL}\KeywordTok{{-}}\NormalTok{GLL interpolation dgl() }\KeywordTok{for}\NormalTok{ pair (mx,md)}
-\NormalTok{ c}
-       \KeywordTok{include} \StringTok{\textquotesingle{}SIZE\textquotesingle{}}
+\begin{lstlisting}[language=Fortran]
+ c-----------------------------------------------------------------------
+       subroutine get_dgll_ptr (ip,mx,md)
+ c
+ c     Get pointer to GLL-GLL interpolation dgl() for pair (mx,md)
+ c
+       include 'SIZE'
  
-\NormalTok{ c     dgradl holds GLL}\KeywordTok{{-}}\NormalTok{based derivative }\KeywordTok{/}\NormalTok{ interpolation operators}
+ c     dgradl holds GLL-based derivative / interpolation operators
  
-       \DataTypeTok{parameter}\NormalTok{(ldg}\KeywordTok{=}\NormalTok{lxd}\KeywordTok{**}\DecValTok{3}\NormalTok{,lwkd}\KeywordTok{=}\DecValTok{4}\KeywordTok{*}\NormalTok{lxd}\KeywordTok{*}\NormalTok{lxd)}
-       \KeywordTok{common} \KeywordTok{/}\NormalTok{dgradl}\KeywordTok{/}\NormalTok{ d(ldg),dt(ldg),dg(ldg),dgt(ldg),jgl(ldg),jgt(ldg)}
-\NormalTok{      $             , wkd(lwkd)}
+       parameter(ldg=lxd**3,lwkd=4*lxd*lxd)
+       common /dgradl/ d(ldg),dt(ldg),dg(ldg),dgt(ldg),jgl(ldg),jgt(ldg)
+      $             , wkd(lwkd)
        
-       \KeywordTok{if}\NormalTok{ (ip}\OperatorTok{.eq.}\DecValTok{0}\NormalTok{) }\KeywordTok{then}
-\NormalTok{       ...}
-          \KeywordTok{call}\NormalTok{ gen\_dgll(d(ip),dt(ip),md,mx,wkd)}
-\NormalTok{       ...}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\NormalTok{ c}\KeywordTok{{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}\CommentTok{{-}}
-       \KeywordTok{subroutine}\NormalTok{ gen\_dgll(dgl,dgt,mp,np,w)}
-\NormalTok{ c}
-\NormalTok{ c     Generate derivative from np GL points onto mp GL points}
-\NormalTok{ c}
-\NormalTok{ c        dgl  }\KeywordTok{=}\NormalTok{ derivative matrix, mapping from velocity nodes }\KeywordTok{to}\NormalTok{ pressure}
-\NormalTok{ c        dgt  }\KeywordTok{=} \FunctionTok{transpose}\NormalTok{ of derivative matrix}
-\NormalTok{ c        w    }\KeywordTok{=}\NormalTok{ work array of }\FunctionTok{size}\NormalTok{ (}\DecValTok{3}\KeywordTok{*}\NormalTok{np}\KeywordTok{+}\NormalTok{mp)}
-\NormalTok{ c}
-\NormalTok{ c        np   }\KeywordTok{=}\NormalTok{ number of points on GLL grid}
-\NormalTok{ c        mp   }\KeywordTok{=}\NormalTok{ number of points on GL  grid}
-\NormalTok{ c}
-\NormalTok{ c}
-\NormalTok{ c}
-       \DataTypeTok{real}\NormalTok{ dgl(mp,np),dgt(np}\KeywordTok{*}\NormalTok{mp),w(}\DecValTok{1}\NormalTok{)}
-\NormalTok{ c}
-\NormalTok{ c}
-\NormalTok{       iz }\KeywordTok{=} \DecValTok{1}
-\NormalTok{       id }\KeywordTok{=}\NormalTok{ iz }\KeywordTok{+}\NormalTok{ np}
-\NormalTok{ c}
-       \KeywordTok{call}\NormalTok{ zwgll (w(iz),dgt,np)  }\CommentTok{! GL points}
-       \KeywordTok{call}\NormalTok{ zwgll (w(id),dgt,mp)  }\CommentTok{! GL points}
-\NormalTok{ c}
-\NormalTok{       ndgt }\KeywordTok{=} \DecValTok{2}\KeywordTok{*}\NormalTok{np}
-\NormalTok{       ldgt }\KeywordTok{=}\NormalTok{ mp}\KeywordTok{*}\NormalTok{np}
-       \KeywordTok{call}\NormalTok{ lim\_chk(ndgt,ldgt,}\StringTok{\textquotesingle{}ldgt \textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}dgt  \textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}gen\_dgl   \textquotesingle{}}\NormalTok{)}
-\NormalTok{ c}
-\NormalTok{       n  }\KeywordTok{=}\NormalTok{ np}\KeywordTok{{-}}\DecValTok{1}
-       \KeywordTok{do}\NormalTok{ i}\KeywordTok{=}\DecValTok{1}\NormalTok{,mp}
-          \KeywordTok{call}\NormalTok{ fd\_weights\_full(w(id}\KeywordTok{+}\NormalTok{i}\KeywordTok{{-}}\DecValTok{1}\NormalTok{),w(iz),n,}\DecValTok{1}\NormalTok{,dgt) }\CommentTok{! 1=1st deriv.}
-          \KeywordTok{do}\NormalTok{ j}\KeywordTok{=}\DecValTok{1}\NormalTok{,np}
-\NormalTok{             dgl(i,j) }\KeywordTok{=}\NormalTok{ dgt(np}\KeywordTok{+}\NormalTok{j)                       }\CommentTok{! Derivative matrix}
-          \KeywordTok{enddo}
-       \KeywordTok{enddo}
-\NormalTok{ c}
-       \KeywordTok{call} \FunctionTok{transpose}\NormalTok{(dgt,np,dgl,mp)}
-\NormalTok{ c}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+       if (ip.eq.0) then
+       ...
+          call gen_dgll(d(ip),dt(ip),md,mx,wkd)
+       ...
+       return
+       end
+ c-----------------------------------------------------------------------
+       subroutine gen_dgll(dgl,dgt,mp,np,w)
+ c
+ c     Generate derivative from np GL points onto mp GL points
+ c
+ c        dgl  = derivative matrix, mapping from velocity nodes to pressure
+ c        dgt  = transpose of derivative matrix
+ c        w    = work array of size (3*np+mp)
+ c
+ c        np   = number of points on GLL grid
+ c        mp   = number of points on GL  grid
+ c
+ c
+ c
+       real dgl(mp,np),dgt(np*mp),w(1)
+ c
+ c
+       iz = 1
+       id = iz + np
+ c
+       call zwgll (w(iz),dgt,np)  ! GL points
+       call zwgll (w(id),dgt,mp)  ! GL points
+ c
+       ndgt = 2*np
+       ldgt = mp*np
+       call lim_chk(ndgt,ldgt,'ldgt ','dgt  ','gen_dgl   ')
+ c
+       n  = np-1
+       do i=1,mp
+          call fd_weights_full(w(id+i-1),w(iz),n,1,dgt) ! 1=1st deriv.
+          do j=1,np
+             dgl(i,j) = dgt(np+j)                       ! Derivative matrix
+          enddo
+       enddo
+ c
+       call transpose(dgt,np,dgl,mp)
+ c
+       return
+       end
+\end{lstlisting}
 
-The subroutine \texttt{mxm} is responsible for matrix-matrix
-multiplication and has several optimized implementations in the file
-\texttt{Nek5000/core/mxm\_wrapper.f}:
+The subroutine \passthrough{\lstinline!mxm!} is responsible for
+matrix-matrix multiplication and has several optimized implementations
+in the file \passthrough{\lstinline!Nek5000/core/mxm\_wrapper.f!}:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-       \KeywordTok{subroutine}\NormalTok{ mxm(a,n1,b,n2,c,n3)}
-\NormalTok{ c}
-\NormalTok{ c     Compute matrix}\KeywordTok{{-}}\NormalTok{matrix }\FunctionTok{product}\NormalTok{ C }\KeywordTok{=}\NormalTok{ A}\KeywordTok{*}\NormalTok{B}
-\NormalTok{ c     }\KeywordTok{for}\NormalTok{ contiguously packed matrices A,B, and C.}
-\NormalTok{ c}
-       \DataTypeTok{real}\NormalTok{ a(n1,n2),b(n2,n3),c(n1,n3)}
-\NormalTok{ c}
-\NormalTok{       ...}
+\begin{lstlisting}[language=Fortran]
+       subroutine mxm(a,n1,b,n2,c,n3)
+ c
+ c     Compute matrix-matrix product C = A*B
+ c     for contiguously packed matrices A,B, and C.
+ c
+       real a(n1,n2),b(n2,n3),c(n1,n3)
+ c
+       ...
  
-\NormalTok{ \#ifdef BGQ}
-       \CommentTok{! Uses IBM Blue Gene specific subroutines}
-\NormalTok{       ...}
-       \KeywordTok{goto} \DecValTok{111}
-\NormalTok{ \#}\KeywordTok{endif}
+ #ifdef BGQ
+       ! Uses IBM Blue Gene specific subroutines
+       ...
+       goto 111
+ #endif
  
-\NormalTok{ \#ifdef XSMM}
-       \CommentTok{! Uses LIBXSMM: a library for dense and sparse matrix operations}
-\NormalTok{       ...}
-       \KeywordTok{goto} \DecValTok{111}
-\NormalTok{ \#}\KeywordTok{endif}
+ #ifdef XSMM
+       ! Uses LIBXSMM: a library for dense and sparse matrix operations
+       ...
+       goto 111
+ #endif
  
-\NormalTok{ \#ifdef BLAS\_MXM}
-       \CommentTok{! Uses the BLAS library bundled with Nek5000 / provided at compile{-}time}
-       \KeywordTok{call}\NormalTok{ dgemm(}\StringTok{\textquotesingle{}N\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}N\textquotesingle{}}\NormalTok{,n1,n3,n2,}\FloatTok{1.0}\NormalTok{,a,n1,b,n2,}\FloatTok{0.0}\NormalTok{,c,n1)}
-       \KeywordTok{goto} \DecValTok{111}
-\NormalTok{ \#}\KeywordTok{endif}
+ #ifdef BLAS_MXM
+       ! Uses the BLAS library bundled with Nek5000 / provided at compile-time
+       call dgemm('N','N',n1,n3,n2,1.0,a,n1,b,n2,0.0,c,n1)
+       goto 111
+ #endif
  
-       \CommentTok{! Uses the loop{-}unrolled matrix multiplication subroutines in mxm\_std.f}
-  \DecValTok{101}  \KeywordTok{call}\NormalTok{ mxmf2(a,n1,b,n2,c,n3)}
+       ! Uses the loop-unrolled matrix multiplication subroutines in mxm_std.f
+  101  call mxmf2(a,n1,b,n2,c,n3)
  
-  \DecValTok{111}  \KeywordTok{continue}
-\NormalTok{       ...}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+  111  continue
+       ...
+       return
+       end
+\end{lstlisting}
 
-If \texttt{n2\ =\ 4} the \texttt{mxf4} would be called by \texttt{mxmf2}
-(see \texttt{Nek5000/core/mxm\_std.f})
+If \passthrough{\lstinline!n2 = 4!} the \passthrough{\lstinline!mxf4!}
+would be called by \passthrough{\lstinline!mxmf2!} (see
+\passthrough{\lstinline!Nek5000/core/mxm\_std.f!})
 
-\begin{Shaded}
-\begin{Highlighting}[]
-       \KeywordTok{subroutine}\NormalTok{ mxf4(a,n1,b,n2,c,n3)}
-\NormalTok{ c}
-       \DataTypeTok{real}\NormalTok{ a(n1,}\DecValTok{4}\NormalTok{),b(}\DecValTok{4}\NormalTok{,n3),c(n1,n3)}
-\NormalTok{ c}
-       \KeywordTok{do}\NormalTok{ j}\KeywordTok{=}\DecValTok{1}\NormalTok{,n3}
-          \KeywordTok{do}\NormalTok{ i}\KeywordTok{=}\DecValTok{1}\NormalTok{,n1}
-\NormalTok{             c(i,j) }\KeywordTok{=}\NormalTok{ a(i,}\DecValTok{1}\NormalTok{)}\KeywordTok{*}\NormalTok{b(}\DecValTok{1}\NormalTok{,j)}
-\NormalTok{      $             }\KeywordTok{+}\NormalTok{ a(i,}\DecValTok{2}\NormalTok{)}\KeywordTok{*}\NormalTok{b(}\DecValTok{2}\NormalTok{,j)}
-\NormalTok{      $             }\KeywordTok{+}\NormalTok{ a(i,}\DecValTok{3}\NormalTok{)}\KeywordTok{*}\NormalTok{b(}\DecValTok{3}\NormalTok{,j)}
-\NormalTok{      $             }\KeywordTok{+}\NormalTok{ a(i,}\DecValTok{4}\NormalTok{)}\KeywordTok{*}\NormalTok{b(}\DecValTok{4}\NormalTok{,j)}
-          \KeywordTok{enddo}
-       \KeywordTok{enddo}
-       \KeywordTok{return}
-       \KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+\begin{lstlisting}[language=Fortran]
+       subroutine mxf4(a,n1,b,n2,c,n3)
+ c
+       real a(n1,4),b(4,n3),c(n1,n3)
+ c
+       do j=1,n3
+          do i=1,n1
+             c(i,j) = a(i,1)*b(1,j)
+      $             + a(i,2)*b(2,j)
+      $             + a(i,3)*b(3,j)
+      $             + a(i,4)*b(4,j)
+          enddo
+       enddo
+       return
+       end
+\end{lstlisting}
 
 \hypertarget{back-to-nek5000corenavier5.f-local_grad3}{%
 \subsubsection{\texorpdfstring{Back to \texttt{Nek5000/core/navier5.f}:
@@ -1578,18 +1558,16 @@ We compute all three derivatives on a 3-D matrix \(u_{(m,m,m)}\)
 
 \(u_r = (I \otimes I \otimes \hat{D}) = \hat{D}_{(m, m)} u_{(m, m^2)}\)
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{subroutine}\NormalTok{ local\_grad3(ur,us,ut,u,N,e,D,Dt)}
-\NormalTok{Output: ur,us,ut         Input:u,N,e,D,Dt}
-\NormalTok{...}
-\NormalTok{m1 }\KeywordTok{=}\NormalTok{ n}\KeywordTok{+}\DecValTok{1}
-\NormalTok{m2 }\KeywordTok{=}\NormalTok{ m1}\KeywordTok{*}\NormalTok{m1}
+\begin{lstlisting}[language=Fortran]
+subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
+Output: ur,us,ut         Input:u,N,e,D,Dt
+...
+m1 = n+1
+m2 = m1*m1
 
-\CommentTok{call mxm(d ,m1,u(0,0,0,e),m1,ur,m2)}
-\NormalTok{...}
-\end{Highlighting}
-\end{Shaded}
+call mxm(d ,m1,u(0,0,0,e),m1,ur,m2)
+...
+\end{lstlisting}
 
 \includegraphics{https://i.imgur.com/l0IWSTj.png}
 
@@ -1598,20 +1576,18 @@ We compute all three derivatives on a 3-D matrix \(u_{(m,m,m)}\)
 
 \(u_{s} = I \otimes \hat{D} \otimes I = u_{(m, m)} \hat{D}^T_{(m, m)}\)
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{subroutine}\NormalTok{ local\_grad3(ur,us,ut,u,N,e,D,Dt)}
-\NormalTok{Output: ur,us,ut         Input:u,N,e,D,Dt}
-\NormalTok{...}
-\NormalTok{m1 }\KeywordTok{=}\NormalTok{ n}\KeywordTok{+}\DecValTok{1}
-\NormalTok{m2 }\KeywordTok{=}\NormalTok{ m1}\KeywordTok{*}\NormalTok{m1}
-\NormalTok{...}
-\KeywordTok{do}\NormalTok{ k}\KeywordTok{=}\DecValTok{0}\NormalTok{,n}
-   \KeywordTok{call}\NormalTok{ mxm(u(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,k,e),m1,dt,m1,us(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,k),m1)}
-\KeywordTok{enddo}
-\NormalTok{...}
-\end{Highlighting}
-\end{Shaded}
+\begin{lstlisting}[language=Fortran]
+subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
+Output: ur,us,ut         Input:u,N,e,D,Dt
+...
+m1 = n+1
+m2 = m1*m1
+...
+do k=0,n
+   call mxm(u(0,0,k,e),m1,dt,m1,us(0,0,k),m1)
+enddo
+...
+\end{lstlisting}
 
 \includegraphics{https://i.imgur.com/tJYkwll.png}
 
@@ -1620,20 +1596,18 @@ We compute all three derivatives on a 3-D matrix \(u_{(m,m,m)}\)
 
 \(u_{t} = \hat{D} \otimes I \otimes I = u_{(m^2, m)} \hat{D}^T_{(m, m)}\)
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{subroutine}\NormalTok{ local\_grad3(ur,us,ut,u,N,e,D,Dt)}
-\NormalTok{Output: ur,us,ut         Input:u,N,e,D,Dt}
-\NormalTok{...}
-\NormalTok{m1 }\KeywordTok{=}\NormalTok{ n}\KeywordTok{+}\DecValTok{1}
-\NormalTok{m2 }\KeywordTok{=}\NormalTok{ m1}\KeywordTok{*}\NormalTok{m1}
-\NormalTok{...}
-\CommentTok{call mxm(u(0,0,0,e),m2,dt,m1,ut,m1)}
+\begin{lstlisting}[language=Fortran]
+subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
+Output: ur,us,ut         Input:u,N,e,D,Dt
+...
+m1 = n+1
+m2 = m1*m1
+...
+call mxm(u(0,0,0,e),m2,dt,m1,ut,m1)
 
-\KeywordTok{return}
-\KeywordTok{end}
-\end{Highlighting}
-\end{Shaded}
+return
+end
+\end{lstlisting}
 
 \includegraphics{https://i.imgur.com/1ZUtKp0.png}
 

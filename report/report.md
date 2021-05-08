@@ -12,10 +12,15 @@ abstract: |
   collaboratively by the authors in an [online HackMD
   document](https://hackmd.io/@jmtW1K-nT5O31NGGrCd6Pg/ByZNQkZH_) with
   accompanying [presentation](https://hackmd.io/@ashwinvis/B1PY2JorO)
-documentclass: scrartcl
-geometry:
-- margin=1in
-hyperrefoptions:
+documentclass: article
+classoption:
+- a4paper
+- 10pt
+# geometry:
+# - margin=1in
+urlcolor: blue
+linkcolor: blue
+citecolor: blue
 colorlinks: true
 ---
 
