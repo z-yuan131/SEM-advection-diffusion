@@ -369,119 +369,116 @@ terms of Legendre polynomials.
 1D}\label{spectral-element-method-in-1d}}
 
 In Spectral Element Methods, the integration domain \(\Omega\) is
-partitioned into intervals (elements). In one dimension, one such
-partition can be characterized in the following way:
+partitioned into intervals (elements). In one dimension, a partition of $(a,b) \in \Omega$ with $E$ elements, which is denoted by $\Delta{E}$, can be written as
 
 \begin{equation}
-    \Delta{E} : a=x_0<x_1< \cdots < x_E =b
+    \Delta{E} : a=x_0<x_1< \cdots < x_E =b.
 \end{equation}
 
 A reference or parent element is also defined as
 \(\hat{\Omega}:[-1 < \xi < 1]\). Particularly in this report, the points
-\(\xi\) correspond to the \textbf{Gauss-Lobatto-Lengendre} points. For
-the comvinience of numerical integration (GLL quadrature), we need to
-map the element from physical domain to reference domain
+\(\xi\) correspond to the \textbf{GLL} points. For
+the convenience of numerical integration (GLL quadrature rule), we need to
+map the element from physical domain to the reference domain
 \(\hat{\Omega}\).
 
 In 1D, a simple mapping that relates the upper boundary \(x^{e}_u\) and
 the lower boundary \(x^{e}_l\) of element \(e\) with the reference
-element is shown: \begin{equation}
-    x^{e}(\xi) = \frac{1-\xi}{2}x^{e}_l+ \frac{1+\xi}{2}x^{e}_u = \frac{1+\xi}{2}(x^{e}_u-x^{e}_l)+x^{e}_l
+element is \begin{equation}
+    x^{e}(\xi) = \frac{1-\xi}{2}x^{e}_l+ \frac{1+\xi}{2}x^{e}_u = \frac{1+\xi}{2}(x^{e}_u-x^{e}_l)+x^{e}_l,
 \end{equation}
 
-Where (\(x^{e}_u-x^{e}_l\)) is the element size \(h\).
-
-Also, the inverse mapping can be defined as: \begin{equation}
-    \xi(x^{e}) = 2\frac{x^{e}-x^{e}_l}{h}-1 
+where (\(x^{e}_u-x^{e}_l\)) is the element size \(h\). Also, the inverse mapping can be defined as \begin{equation}
+    \xi(x^{e}) = 2\frac{x^{e}-x^{e}_l}{h}-1.
 \end{equation}
 
-For ilustration, the 1D Spectral element mesh of order 5 with 1 element
+For illustration, the 1D spectral element mesh of order 5 with 1 element
 in a domain \(\Omega:[0,2]\) looks as follow:
 
 \includegraphics{https://i.imgur.com/ubd25yu.png}
 
 \hypertarget{continue-with-advectiondifussion.}{%
 \subsection{Continue with
-Advection/Difussion.}\label{continue-with-advectiondifussion.}}
+Advection/Difussion Equation}\label{continue-with-advectiondifussion.}}
 
-Having chosen the \textbf{GLL} points for the refernece grid, and by
-chosing to follow a nodal approach, i.e.~chosen basis are the Lagrange
-polynomials. It is possible to finish the discretization of the
-Advection/Difussion Equation: \begin{align}
-\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = 0
+Having chosen the GLL points for the reference grid, and by
+choosing to follow a nodal approach, i.e.~chosen bases are the Lagrange
+polynomials, it is possible to complete the discretization of the
+advection/difussion equation: \begin{align}
+\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = 0.
 \end{align}
 
-For this purpose, Let us recall the process to derive the stiffness
+For this purpose, let us recall the process to derive the stiffness
 matrix by only analizing the diffusion term and considering \(\nu=1\).
 Starting from the following expresion: \begin{align}
-\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx
+\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx,
 \end{align}
 
-There are two main aspects to keep in mind:
+there are two main aspects to keep in mind:
 
 \hypertarget{chain-rule}{%
 \subsubsection{Chain Rule}\label{chain-rule}}
 
-Considering the mapping, \(u\) and \(v\) can be expresed in the
+Considering the mapping, \(u\) and \(v\) can be expressed in the
 following form: \begin{equation}
-\left.u(\textbf{x})\right\rvert_{\Omega^{e}}=\sum_{i=0}^{N}u_{i}^{e} \pi_{i}(\xi)  \quad (\xi) \in [-1,1]
+\left.u(x)\right\rvert_{\Omega^{e}}=\sum_{i=0}^{N}u_{i}^{e} \pi_{i}(\xi),  \quad \xi \in [-1,1].
 \end{equation}
 
 As such in the derivative of \(u\) with respect to \(x\) it is important
 to consider the chain rule:
 
 \begin{equation}
-\left. \frac{\partial u(\textbf{x})}{\partial x}\right\rvert_{\Omega^{e}}=\sum_{i=0}^{N} u_{i}^{e} \frac{\partial \pi_{i}}{\partial\xi}\frac{\partial\xi}{\partial x}  \quad (\xi) \in [-1,1]
+\left. \frac{\partial u(x)}{\partial x}\right\rvert_{\Omega^{e}}=\sum_{i=0}^{N} u_{i}^{e} \frac{\partial \pi_{i}}{\partial\xi}\frac{\partial\xi}{\partial x},  \quad \xi \in [-1,1].
 \end{equation}
 
 \hypertarget{change-of-integration-domain}{%
 \subsubsection{Change of Integration
-domain}\label{change-of-integration-domain}}
+Domain}\label{change-of-integration-domain}}
 
-Due to the mapping, the integration domain to evaluate in the weak form
-is changed. As a concequence of it, the Jacobian determinant must be
+Due to the mapping, the integration domain to evaluate the weak form
+is changed. Consequently, the Jacobian determinant must be
 introduced as a scaling factor, which for this case is:
 
 \begin{equation}
-J(\xi)=\frac{\partial x}{\partial \xi}=\frac{h}{2}
+J(\xi)=\frac{\partial x}{\partial \xi}=\frac{h}{2}.
 \end{equation}
 
-Introducing the previous notation into the diffusive termt the following
+Introducing the previous notation into the diffusive term the following
 is obtained:
 
 \begin{equation}
-\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = \sum_{i=0}^{N}\sum_{j=0}^{N} v_i^{e}( \int_{\hat{\Omega}}\frac{\partial \pi_{i}}{\partial\xi}\frac{\partial \pi_{j}}{\partial\xi}(\frac{\partial\xi}{\partial x})^{2} J(\xi) d\xi)u_j^{e}
+\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = \sum_{i=0}^{N}\sum_{j=0}^{N} v_i^{e}( \int_{\hat{\Omega}}\frac{\partial \pi_{i}}{\partial\xi}\frac{\partial \pi_{j}}{\partial\xi}(\frac{\partial\xi}{\partial x})^{2} J(\xi) d\xi)u_j^{e}.
 \end{equation}
 
 This yields a similar form as the one shown in the formulation of the
-Galerkin method, however aditional terms that account for the mapping
+Galerkin method; however, additional terms that account for the mapping
 and geometry of the element in physical domain are included now. For the
-stifness matrix in 1D, the geometry terms become a constant since:
+stiffness matrix in 1D, the geometry term becomes a constant since:
 
 \begin{equation}
-(\frac{\partial \xi}{\partial x})^{2} J(\xi)= (\frac{2}{h})^{2}\frac{h}{2}=\frac{2}{h} 
+(\frac{\partial \xi}{\partial x})^{2} J(\xi)= (\frac{2}{h})^{2}\frac{h}{2}=\frac{2}{h}.
 \end{equation}
 
 Introducing the concepts into the original term produces:
 
 \begin{equation}
-\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx =(\underline{v}^{e})^{T}K^{e}\underline{u}^{e}
+\int_{\Omega^{e}} ( \frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx =(\underline{v}^{e})^{T}K^{e}\underline{u}^{e},
 \end{equation}
 
-Where: \begin{align}
-K^{e}[i,j]&=\frac{2}{h}\int_{\hat{\Omega}}\frac{\partial \pi_{i}}{\partial\xi}\frac{\partial \pi_{j}}{\partial\xi} d\xi \quad \hat{\Omega} := [-1,1] 
+where \begin{align}
+K^{e}[i,j]&=\frac{2}{h}\int_{\hat{\Omega}}\frac{\partial \pi_{i}}{\partial\xi}\frac{\partial \pi_{j}}{\partial\xi} d\xi, \quad \hat{\Omega} \in [-1,1]. 
 \end{align}
 
 Up to the point, we have assumed that all integrals are evaluated
 analytically. As we have seen, within each elemental domain we want to
 evaluate integrals of the form \begin{equation}
-\int_{-1}^{1}u(\xi)
+\int_{-1}^{1}u(\xi) d\xi.
 \end{equation} The form of \(u(\xi)\) is, however, problem specific and
 therefore we need an automated way to evaluate such integrals. This
-suggests the use of numerical integration or quadrature. The fundamental
+suggests the use of numerical integration or quadrature rule. The fundamental
 concept is the approximation of the integral by a finite summation of
 the form \begin{equation}
-\int_{-1}^{1}u(\xi) = \sum_{i=0}^{Q-1}\rho_iu(\xi_i)+R(u)
+\int_{-1}^{1}u(\xi)d\xi = \sum_{i=0}^{Q-1}\rho_iu(\xi_i)+R(u),
 \end{equation}
 
 where \(\rho_i\) are specified constants or weights and \(\xi_i\)
