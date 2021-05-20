@@ -123,46 +123,46 @@ formulation}\label{continuous-galerkin-formulation}}
 
 Based on posing problems in their variational (weak) form which is an
 equivalent integral form to that of their classical representation. Take
-advection-diffusion equation as an example: Expressed in strong form:
+advection-diffusion equation as an example: expressed in strong form as
 \begin{equation}
-\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} =  \nu \frac{\partial^{2}u}{\partial{x}^{2}}
+\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} =  \nu \frac{\partial^{2}u}{\partial{x}^{2}}.
 \end{equation}
 
 A \textbf{residual} can be defined as: \begin{equation}
-L=\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} -  \nu \frac{\partial^{2}u}{\partial{x}^{2}}=0
+L=\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} -  \nu \frac{\partial^{2}u}{\partial{x}^{2}}.
 \end{equation}
 
-If the domain is dependant on \(x \in \Omega\). The weak form is
+The weak form is
 obtained by multiplying the residual by a \textbf{test function}
 \(v(x)\) and integrating over the domain: \begin{equation}
-(v,L)=\int_{\Omega} v(\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} -  \nu \frac{\partial^{2}u}{\partial{x}^{2}})dx=0
+(v,L)=\int_{\Omega} v(\frac{\partial{u}}{\partial{t}} + c \frac{\partial{u}}{\partial{x}} -  \nu \frac{\partial^{2}u}{\partial{x}^{2}})dx=0.
 \end{equation}
 
 The order of the second derivative in the diffusion term can be reduced
 by integrating by parts:
 
 \begin{align}
-\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx + [v\frac{\partial u}{\partial x}]_{\partial\Omega}) = 0
+\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx + [v\frac{\partial u}{\partial x}]_{\partial\Omega}) = 0,
 \end{align}
 
-By choosing a basis \(v(x)\) that vanishes at the boundaries of the
+by choosing a basis \(v(x)\) that vanishes at the boundaries of the
 domain \(\partial\Omega\). The Galerkin formulation is then the
 following.
 
 Find \(u\) such that: \begin{align}
-\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = 0
+\int_{\Omega} (v\frac{\partial u}{\partial t} + cv\frac{\partial u}{\partial x} + \nu\frac{\partial v}{\partial x}\frac{\partial u}{\partial x})dx = 0.
 \end{align}
 
 A potential candidate for \(u(x,t)\) can be represented by a combination
 of \textbf{trial functions} \(\psi\) such that: \begin{equation}
-    u_N(x,t) = \sum_{n=0}^N u_n(t) \psi_n(x) = \underline{\psi}(x)^T \cdot \underline{u(t)}
+    u_N(x,t) = \sum_{n=0}^N u_n(t) \psi_n(x) = \underline{\psi}(x)^T \cdot \underline{u}(t),
 \end{equation}
 
-In the Galerkin method, the test function \(v(x)\) can also be
+where \(\underline{\psi}(x)\) and \(\underline{u}\) are the column vectors for the basis functions and the coefficients. In the Galerkin method, the test function \(v(x)\) can also be
 represented by the same set of trial functions.
 
 \begin{equation}
-    v(x) = \sum_{n=0}^N v_n \psi_n(x) = \underline{\psi}(x)^T \cdot \underline{v}
+    v(x) = \sum_{n=0}^N v_n \psi_n(x) = \underline{\psi}(x)^T \cdot \underline{v}.
 \end{equation}
 
 Applying this to the weak formulation of the Advection/Diffusion
@@ -170,23 +170,23 @@ equation and considering \(c=\nu=1\) for simplicity, the following is
 obtained:
 
 \begin{equation}
- \sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi_{i}\psi_{j}dx)\frac{du_j}{dt}+\sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi'_{i}\psi'_{j}dx)u_j+\sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi_{i}\psi'_{j}dx)u_j=0
+ \sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi_{i}\psi_{j}dx)\frac{du_j}{dt}+\sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi'_{i}\psi'_{j}dx)u_j+\sum_{i=0}^{N}\sum_{j=0}^{N} v_i( \int_{\Omega}\psi_{i}\psi'_{j}dx)u_j=0,
 \end{equation}
 
-Which in matrix form is:
+where $'$ stands for a derivative with respect to $x$. The above equation in matrix form is:
 
 \begin{equation}
-v^{T}M\frac{d\underline{u}}{dt}=-v^{T}K\underline{u}-v^{T}C\underline{u}
+v^{T}M\frac{d\underline{u}}{dt}=-v^{T}K\underline{u}-v^{T}C\underline{u},
 \end{equation}
 
-Which implies: \begin{equation}
-M\frac{d\underline{u}}{dt}=-K\underline{u}-C\underline{u}
+which implies, \begin{equation}
+M\frac{d\underline{u}}{dt}=-K\underline{u}-C\underline{u},
 \end{equation}
 
-And: \begin{align}
-M[i,j]&=\int_{\Omega}\psi_i(x)\psi_j(x)dx \\
-K[i,j]&=\int_{\Omega}\frac{d\psi_i(x)}{dx}\frac{d\psi_j(x)}{dx}dx \\
-C[i,j] &= \int_{\Omega}\psi_i(x)\frac{d\psi_j(x)}{dx}dx \\
+and, \begin{align}
+M[i,j]&=\int_{\Omega}\psi_i(x)\psi_j(x)dx, \\
+K[i,j]&=\int_{\Omega}\frac{d\psi_i(x)}{dx}\frac{d\psi_j(x)}{dx}dx, \\
+C[i,j] &= \int_{\Omega}\psi_i(x)\frac{d\psi_j(x)}{dx}dx. \\
 \end{align}
 
 There are still some questions to be answered: \textbf{what type of
@@ -196,16 +196,10 @@ basis functions should be used?}
 \section{Basis Functions in Spectral Element
 Methods}\label{basis-functions-in-spectral-element-methods}}
 
-There are two main aproaches used in the spectral element method scheme
-implemented in Nek5000, which are nodal or modal basis.
+Both modal and nodal bases are used in Nek5000 which is based on spectral-element method.
 
-In the modal approach, the chosen basis are a known parameter and the
-coefficients of the basis must be calculated.
-
-In the nodal approach, the coefficients are simply nodal values of a
-given function, while the polynomial basis must be constructed.
-
-They each provide different advantages or properties that can be
+In the modal approach, the chosen bases are known and the
+coefficients in the expansion must be calculated. In the nodal approach, the coefficients are simply nodal values of a given function, while the polynomial basis must be constructed. They each provide different advantages or properties that can be
 exploited.
 
 \hypertarget{legendre-polynomials-modal-basis}{%
@@ -213,17 +207,15 @@ exploited.
 Basis)}\label{legendre-polynomials-modal-basis}}
 
 Legendre polynomial of order \(k\), which is denoted by \(L_k(x)\), is
-the eigensolution of the legendre differential equation which is shown
+the eigensolution of the Legendre differential equation which is shown
 below: \begin{align}
-{\displaystyle {-\frac {d}{dx}}\left(\left(1-x^{2}\right){\frac {d}{dx}L_k(x)}\right)=k(k+1)L_k(x)}
+{\displaystyle {-\frac {d}{dx}}\left(\left(1-x^{2}\right){\frac {d}{dx}L_k(x)}\right)=k(k+1)L_k(x)}.
 \end{align}
 
 Legendre polynomials can be defined in many ways, and the various
 definitions highlight different aspects as well as suggest
 generalizations and connections to different mathematical structures and
-physical and numerical applications. In physical settings, Legendre's
-differential equation arises naturally whenever one solves Laplace's
-equation (and related partial differential equations) by separation of
+physical and numerical applications. In physical settings, the Legendre differential equation arises naturally whenever one solves the Laplace equation by separation of
 variables in spherical coordinates.
 
 \hypertarget{visual-representation}{%
@@ -258,14 +250,14 @@ The first six Legendre polynomials are:
 \item
   Orthogonality: The set of Legendre polynomials form an orthogonal
   family, that means: \begin{align}
-  \int_{-1}^1 L_m(x)L_n(x) dx = \frac{2}{2n+1}\delta_{mn} 
+  \int_{-1}^1 L_m(x)L_n(x) dx = \frac{2}{2n+1}\delta_{mn}.
   \end{align}
 \item
   Completeness: Legendre polynomials are compelete. This means that the
   given piecewise continuous function \(f(x)\) with finitely many
-  discontinuities in the interval {[}-1,1{]}, can be written as the
+  discontinuities in the interval {[}-1,1{]}, can be approximated by the
   following sum: \begin{align}
-  f_n(x)=\sum_{l=0}^{n}a_lL_l(x)
+  f_n(x)=\sum_{l=0}^{n}a_lL_l(x),
   \end{align}
 \end{itemize}
 
@@ -275,47 +267,47 @@ polynomial of order \(k\), and \(f_n(x) \to f(x)\) as \(n \to \infty\).
 The completeness property can be written in the following form:
 
 \begin{align}
-\sum_{l=0}^{\infty}\frac{2l+1}{2}L_l(x)L_l(y) = \delta(x-y)
+\sum_{l=0}^{\infty}\frac{2l+1}{2}L_l(x)L_l(y) = \delta(x-y).
 \end{align}
 
 Note \(x\), \(y\in [-1,1]\) and
-\(\delta(x-y) = \frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ip(x-y)}dp\)
+\(\delta(x-y) = \frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ip(x-y)}dp\).
 
 \begin{itemize}
 \tightlist
 \item
-  Bonnet's recursion formula The Legendre polynomials can also be
+  Bonnet's recursion formula: The Legendre polynomials can also be
   defined as the coefficients in a formal expansion in powers of \(t\)
   of the generating function:
 \end{itemize}
 
 \begin{align}
-\frac{1}{\sqrt{1-2xt+t^2}} = \sum_{n=0}^{\infty}L_n(x)t^n
+\frac{1}{\sqrt{1-2xt+t^2}} = \sum_{n=0}^{\infty}L_n(x)t^n.
 %\label{ceq1}
 \end{align}
 
-by differentiating generating function with respect to \(t\):
+By differentiating the generating function with respect to \(t\), the following is obtained:
 
 \begin{align}
-\frac{x-t}{\sqrt{1-2xt+t^2}} = (1-2xt+t^2)\sum_{n=0}^{\infty}nL_n(x)t^{n-1}
+\frac{x-t}{\sqrt{1-2xt+t^2}} = (1-2xt+t^2)\sum_{n=0}^{\infty}nL_n(x)t^{n-1}.
 %\label{ceq2}
 \end{align}
 
 By substituting the denominator of the L.H.S of the above equation with
-the summation and rearranging the whole equation: \begin{align}
-nL_n(x)t^{n-1} - (2n+1)xL_n(x)t^n + (1+n)L_n(x)t^{n+1} = 0
+the summation and rearranging the whole equation we get: \begin{align}
+nL_n(x)t^{n-1} - (2n+1)xL_n(x)t^n + (1+n)L_n(x)t^{n+1} = 0.
 \end{align}
 
-equating terms with identical powers of \(t\) we find:
+Equating terms with identical powers of \(t\) we find:
 
 \begin{align}
-(1+n)L_{1+n}(x) - (2n+1)xL_n(x) + nL_{n-1} = 0
+(1+n)L_{1+n}(x) - (2n+1)xL_n(x) + nL_{n-1}(x) = 0.
 \end{align}
 
 \begin{itemize}
 \tightlist
 \item
-  other properties
+  Other properties
 
   \begin{itemize}
   \tightlist
@@ -334,7 +326,7 @@ equating terms with identical powers of \(t\) we find:
 Basis)}\label{lagrange-interpolation-polynomials-nodal-basis}}
 
 For a grid on \(\hat{\omega}\) with \(p+1\) nodes
-\(\Xi_{P+1}:= {\xi_0,\cdots,\xi_p}\) the Lagrangian interpolation
+\(\Xi_{P+1}:= {\xi_0,\cdots,\xi_p}\) the Lagrange interpolation
 polynomial of a smooth function \(f(\xi)\) on \([-1,1]\) is defined as
 follows: \begin{equation}
 I_pf(\xi) = \sum_{i=0}^{p} f(\xi_{i})\pi_i(\xi)  \quad
@@ -350,10 +342,10 @@ being defined as: \begin{equation}
 
 \begin{itemize}
 \item
-  An interesting property of the lagrangian polynomiasl is the fact
+  An interesting property of the Lagrangian polynomials is the fact
   that: \(\pi_i(x_j)=\delta_{ij}\).
 \item
-  If the lagrange polynomials are applied in the GLL points, it is also
+  If the Lagrange polynomials are applied in the Gauss-Lobatto-Legendre (GLL) points, it is also
   possible to define them as follows:
 \end{itemize}
 
@@ -361,14 +353,14 @@ being defined as: \begin{equation}
     \pi_j(\xi) = \frac{-1}{N(N+1)} \frac{(1-{\xi}^2)L_N'(\xi)}{(\xi-\xi_j)L_N(\xi_j)}  \quad 0 \leq j \leq N 
 \end{equation}
 
-In other words: Lagrange interpolation polynomials can be expressed in
+In other words, Lagrange interpolation polynomials can be expressed in
 terms of Legendre polynomials.
 
 \begin{itemize}
 \tightlist
 \item
-  Lagrange polynomials have \textbf{Local support}, which mean that they
-  are non zero only in a specific space, i.e {[}-1,1{]} and vanish
+  Lagrange polynomials have \textbf{Local support}, which means that they
+  are non-zero only in a specific space, i.e {[}-1,1{]} and vanish
   identically outside these boundaries.
 \end{itemize}
 
