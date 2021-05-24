@@ -102,6 +102,8 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
 
 \title{Spectral element method and discrete operators}
 \author{A. Perez \and A. V. Mohanan \and M. Moniri \and Z. Yuan}
@@ -239,7 +241,7 @@ The first six Legendre polynomials are:
 
 \begin{figure}
 \centering
-\includegraphics{https://upload.wikimedia.org/wikipedia/commons/c/c8/Legendrepolynomials6.svg}
+\includegraphics{figs/44b1338c42c47641d4f196cdfa949fe403e8df20.eps}
 \caption{Legendre Polynomials upto order 5}
 \end{figure}
 
@@ -395,7 +397,7 @@ where (\(x^{e}_u-x^{e}_l\)) is the element size \(h\). Also, the inverse mapping
 For illustration, the 1D spectral element mesh of order 5 with 1 element
 in a domain \(\Omega:[0,2]\) looks as follow:
 
-\includegraphics{https://i.imgur.com/ubd25yu.png}
+\includegraphics{figs/3bfea2e0211dfcbedca0466bd0dc58b20c68d586.png}
 
 \hypertarget{continue-with-advectiondifussion.}{%
 \subsection{Continue with
@@ -568,8 +570,8 @@ BC}\label{applying-boundary-conditions-homogenous-dirichlet-bc}}
   \(X^N_0\)
 \end{itemize}
 
-\includegraphics{https://i.imgur.com/iZpiiPV.png}
-\includegraphics{https://i.imgur.com/ZTv0870.png}
+\includegraphics{figs/dadf8ccf703923cbac91fdb1eac78f62d729367f.png}
+\includegraphics{figs/3c1003a64acccf7c33fd9604e81f9c4b75a66a3d.png}
 
 \hypertarget{neumann-boundary-condition}{%
 \subsubsection{Neumann boundary
@@ -590,7 +592,7 @@ Au=F
 
 Rewrite it into the matrix format:
 
-\includegraphics{https://i.imgur.com/q0Vnj7p.png}
+\includegraphics{figs/ee2417c98a1e9e26931e69be51638abdfd2367c9.png}
 
 We can see only the last term in the forcing vector is modified due to
 the Neumann BC.
@@ -619,14 +621,14 @@ inside the neutral stability curve.
 
 \begin{figure}
 \centering
-\includegraphics{https://i.imgur.com/0i8AlFv.png=50x20}
+\includegraphics{figs/0d2289a81eb4c5c10c4430bc8fdffb2cc397e0ba.png}
 \caption{stability\textbar20\%}
 \end{figure}
 
 The final result with \(p=32, t=0.1\) and Dirichlet BC on both sides
 comparing with the initial condition:
 
-\includegraphics{https://i.imgur.com/ILSghwP.png}
+\includegraphics{figs/3d969364028d7ae5e24eb792b401314b71724e68.png}
 
 \hypertarget{relationship-between-modal-and-nodal-basis}{%
 \subsection{Relationship between Modal and Nodal
@@ -693,7 +695,7 @@ nonnegative integrable weight function. \(\gamma_k:=\|p_k\|^2_{L_w^2}\).
 Now, we can plot the structure of mass matricex via different
 approaches:
 
-\includegraphics{https://i.imgur.com/s3In43d.png}
+\includegraphics{figs/64cf6104567524d8214da8aaba5fa3b1b72eea69.png}
 
 \hypertarget{spectral-element-method-in-1d---multiple-elements}{%
 \section{Spectral Element Method in 1D - Multiple
@@ -877,7 +879,7 @@ The problem is then solved in the global domain as follows:
 M\frac{d\underline{u}}{dt}=-K\underline{u}-C\underline{u}
 \end{equation}
 
-\includegraphics{https://i.imgur.com/K8RDepw.png}
+\includegraphics{figs/da09c33b2e35ea401b49fefd07523c278274758d.png}
 
 \hypertarget{note-of-caution---discontinous-terms.}{%
 \subsubsection{Note of Caution - Discontinous
@@ -1241,48 +1243,57 @@ The boolean matrices are also constructed keeping in mind the same
 This time, however, the structure of \(Q\) changes slightly. A good
 example is shown in the following picture:
 
-\includegraphics{https://i.imgur.com/sCAmuvA.png}
+\includegraphics{figs/ac1478334cdfb6c40bd089302ca686c9a0b9eae5.png}
 
 The exact procedure to generate global matrices can be performed for in
-3D as in 1D: - Create unassembled matrices. - Apply direct stiffness
-sumation.
+3D as in 1D:
+
+\begin{itemize}
+\tightlist
+\item
+  Create unassembled matrices.
+\item
+  Apply direct stiffness sumation.
+\end{itemize}
 
 However this is not done in practice, as the number of operations and
 memory requirements are very big. Instead each element is solved
 individually and the results are shared by means of gather-scatter
 operations.
 
-\hypertarget{matrix-free-formulation}{%
-\section{Matrix Free Formulation}\label{matrix-free-formulation}}
+\hypertarget{implementation-matrix-free-formulation}{%
+\section{Implementation: Matrix Free
+Formulation}\label{implementation-matrix-free-formulation}}
 
-Recap: evaluation of spectral operators
+\emph{Reference: See sections 8.1 - 8.3 in \citet{Deville} }
+
+In the previous sections we learned how tensor products formally
+represented on paper. Tensor products are required for evaluation of
+spectral operators, but it is not feasible to form large assembled
+global matrices, because global matrix operations are memory- and
+performance-wise \emph{expensive}. Instead we use:
 
 \begin{itemize}
 \tightlist
 \item
-  Global matrix operations are memory- and performance-wise
-  \emph{expensive}
+  \textbf{Local matrix-vector products}, for example the diffusion term:
+  \[\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}\]
+  \emph{vectorizable}, and CPU bounded.
 \item
-  Instead use:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{Local matrix-vector products}, for example the diffusion
-    term: \[\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}\]
-    \emph{vectorizable}!
-  \item
-    \textbf{Direct stiffness summation}: consecutive gather (\(Q^T\))
-    and scatter (\(Q\)) \[\mathcal{A_L} = Q Q^T \mathcal{A^e}\]
-    \emph{communications}!
-  \end{itemize}
+  \textbf{Direct stiffness summation}: consecutive gather (\(Q^T\)) and
+  scatter (\(Q\)) \[\mathcal{A_L} = Q Q^T \mathcal{A^e}\]
+  \emph{communications}, and memory bandwidth bounded.
 \end{itemize}
+
+thus, simplifying the operation to a two-step procedure.
 
 \hypertarget{short-detour-vectorization-and-performance}{%
 \subsubsection{Short detour: Vectorization and
 performance}\label{short-detour-vectorization-and-performance}}
 
-Compilers are smart and capable of vectorizing loops, provided:
+Let us have a quick look at how to avoid common pitfalls to favour
+vectorization. Compilers are smart and capable of vectorizing loops,
+provided:
 
 \begin{itemize}
 \item
@@ -1313,9 +1324,12 @@ enddo
 \subsection{Example of 3D gradient computation in
 Nek5000}\label{example-of-3d-gradient-computation-in-nek5000}}
 
-Recap: derivatives in each directions are:
+To demonstrate all these concepts we take a look at how a gradient of
+any array is computed in Nek5000. Let us recall that derivatives in each
+directions are:
 
 \begin{itemize}
+\tightlist
 \item
   defined as tensor products \((I \otimes I \otimes D) \underline u^e\),
   etc\ldots{}
@@ -1324,8 +1338,8 @@ Recap: derivatives in each directions are:
   \(\Sigma_p D_{ip}u^e_{pjk}\)
 \end{itemize}
 
-Ensures data locality and vectorization. To compute the gradient of an
-array, the function \passthrough{\lstinline!gradm1!} (see the file in
+This ensures data locality and vectorization. To compute the gradient of
+an array, the function \passthrough{\lstinline!gradm1!} (see the file in
 \passthrough{\lstinline!Nek5000/core/navier5.f!}) is often employed.
 This function ultimately calls the matrix-matrix multiplication
 \passthrough{\lstinline!mxm!} subroutine:
@@ -1376,15 +1390,13 @@ This function ultimately calls the matrix-matrix multiplication
        end
 \end{lstlisting}
 
-For the 2-D case the gradient is \emph{locally} evaluated with a
-matrices of shape \passthrough{\lstinline!(lx1, lx1)!}. Note that
+For the 3-D case the gradient is \emph{locally} evaluated with a
+matrices of shape \passthrough{\lstinline!(lx1, lx1, lx1)!}. Note that
 \passthrough{\lstinline!lx1 = m1 = n+1!} is the polynomial order plus 1
-to include element boundaries.
-
-\begin{align}
-u_r &= D  u \\
-u_s &= u D^T
-\end{align}
+to include element boundaries. Within the subroutine
+\passthrough{\lstinline!local\_grad3!} the derivative matrices \(D\) and
+\(D^T\) are multiplied against a single element of the \(u\) array using
+subroutine \passthrough{\lstinline!mxm!}.
 
 \begin{lstlisting}[language=Fortran]
        subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
@@ -1408,11 +1420,11 @@ u_s &= u D^T
 \end{lstlisting}
 
 The matrices \(D\) and \(D^T\) are initialized once and stored in the
-include file \passthrough{\lstinline!DXYZ!} within a common block in
-\passthrough{\lstinline!navier1.f!}.
+include file \passthrough{\lstinline!DXYZ!} within a common block. In
+\passthrough{\lstinline!navier1.f!} we find the code responsible for
+generating these operators.
 
 \begin{lstlisting}[language=Fortran]
- c-----------------------------------------------------------------------
        subroutine get_dgll_ptr (ip,mx,md)
  c
  c     Get pointer to GLL-GLL interpolation dgl() for pair (mx,md)
@@ -1540,7 +1552,12 @@ would be called by \passthrough{\lstinline!mxmf2!} (see
 
 We compute all three derivatives on a 3-D matrix \(u_{(m,m,m)}\)
 
-\includegraphics{https://i.imgur.com/bLuIZUo.png}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{figs/8d711f2db9c30e0864b2038788e4e8c30648ad26.png}
+\caption{Interpretation of 3D data array as a contiguous vector in
+memory}
+\end{figure}
 
 \hypertarget{st-mxm}{%
 \paragraph{\texorpdfstring{1st \texttt{mxm}}{1st mxm}}\label{st-mxm}}
@@ -1558,7 +1575,11 @@ call mxm(d ,m1,u(0,0,0,e),m1,ur,m2)
 ...
 \end{lstlisting}
 
-\includegraphics{https://i.imgur.com/l0IWSTj.png}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{figs/b7cef4a74c1cb5eb009b3d833f658ba806965cab.png}
+\caption{Interpretation of 3D data array as a \(n \times n^2\) matrix}
+\end{figure}
 
 \hypertarget{nd-mxm}{%
 \paragraph{\texorpdfstring{2nd \texttt{mxm}}{2nd mxm}}\label{nd-mxm}}
@@ -1578,7 +1599,12 @@ enddo
 ...
 \end{lstlisting}
 
-\includegraphics{https://i.imgur.com/tJYkwll.png}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{figs/c8583cc0161a26f00fca48847ad5cebd79ea0e65.png}
+\caption{Interpretation of 3D data array as a sequence of \(n\)
+\(n \times n\) matrices}
+\end{figure}
 
 \hypertarget{rd-mxm}{%
 \paragraph{\texorpdfstring{3rd \texttt{mxm}}{3rd mxm}}\label{rd-mxm}}
@@ -1598,6 +1624,12 @@ return
 end
 \end{lstlisting}
 
-\includegraphics{https://i.imgur.com/1ZUtKp0.png}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{figs/42abdb01633a6d4d696312b5360e89d4b3854b97.png}
+\caption{Interpretation of 3D data array as a \(n^2 \times n\) matrix}
+\end{figure}
+
+  \bibliography{references.bib}
 
 \end{document}

@@ -22,6 +22,8 @@ urlcolor: blue
 linkcolor: blue
 citecolor: blue
 colorlinks: true
+bibliography:
+- references.bib
 ---
 
 # Continuous Galerkin formulation
@@ -134,7 +136,7 @@ $$
 \end{array}
 $$
 
-![Legendre Polynomials upto order 5](https://upload.wikimedia.org/wikipedia/commons/c/c8/Legendrepolynomials6.svg)
+![Legendre Polynomials upto order 5](./figs/cb38b0479ef4be053e313534817757014f468684.eps)
 
 ### Properties
 - Orthogonality: The set of Legendre polynomials form an orthogonal family, that means:
@@ -987,29 +989,35 @@ This time, however, the structure of $Q$ changes slightly. A good example is sho
 
 
 The exact procedure to generate global matrices can be performed for in 3D as in 1D:
+
 - Create unassembled matrices.
 - Apply direct stiffness sumation.
 
 However this is not done in practice, as the number of operations and memory requirements are very big. Instead each element is solved individually and the results are shared by means of gather-scatter operations.
 
 
-# Matrix Free Formulation
+# Implementation: Matrix Free Formulation
 
-Recap: evaluation of spectral operators
+*Reference: See sections 8.1 - 8.3 in @Deville *
 
-- Global matrix operations are memory- and performance-wise *expensive*
-- Instead use:
-    -  **Local matrix-vector products**, for example the diffusion term:
-       $$\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}$$
-       *vectorizable*!
-    -  **Direct stiffness summation**: consecutive gather ($Q^T$) and scatter ($Q$)
-       $$\mathcal{A_L} = Q Q^T \mathcal{A^e}$$
-       *communications*!
+In the previous sections we learned how tensor products formally represented on
+paper. Tensor products are required for evaluation of spectral operators, but
+it is not feasible to form large assembled global matrices, because global
+matrix operations are memory- and performance-wise *expensive*. Instead we use:
 
+-  **Local matrix-vector products**, for example the diffusion term:
+   $$\mathcal{A^e}=\underline{v^e}^{T}K^e\underline{u^e}$$
+   *vectorizable*, and CPU bounded.
+-  **Direct stiffness summation**: consecutive gather ($Q^T$) and scatter ($Q$)
+   $$\mathcal{A_L} = Q Q^T \mathcal{A^e}$$
+   *communications*, and memory bandwidth bounded.
+
+thus, simplifying the operation to a two-step procedure.
 
 ### Short detour: Vectorization and performance
 
-Compilers are smart and capable of vectorizing loops, provided:
+Let us have a quick look at how to avoid common pitfalls to favour
+vectorization.  Compilers are smart and capable of vectorizing loops, provided:
 
 - Dependencies are avoided, e.g.: backward substitution of a tridiagonal solver
   ```fortran
@@ -1026,17 +1034,14 @@ Compilers are smart and capable of vectorizing loops, provided:
 - Branching avoided: subroutines, functions, `if` statements, I/O
 - Data locality: strides in memory are aligned with cache lines
 
-
 ## Example of 3D gradient computation in Nek5000
 
-Recap: derivatives in each directions are:
+To demonstrate all these concepts we take a look at how a gradient of any array is computed in Nek5000. Let us recall that derivatives in each directions are:
 
  - defined as tensor products $(I \otimes I \otimes D) \underline u^e$, etc...
- 
  - implemented as matrix-matrix multiplications $\Sigma_p D_{ip}u^e_{pjk}$
 
-Ensures data locality and vectorization. To compute the gradient of an array, the function `gradm1` (see the file in `Nek5000/core/navier5.f`) is often employed. This function ultimately calls the matrix-matrix multiplication `mxm` subroutine:
-
+This ensures data locality and vectorization. To compute the gradient of an array, the function `gradm1` (see the file in `Nek5000/core/navier5.f`) is often employed. This function ultimately calls the matrix-matrix multiplication `mxm` subroutine:
 
 ```fortran
        subroutine gradm1(ux,uy,uz,u)
@@ -1084,12 +1089,11 @@ Ensures data locality and vectorization. To compute the gradient of an array, th
        end
 ```
 
-For the 2-D case the gradient is *locally* evaluated with a matrices of shape `(lx1, lx1)`. Note that `lx1 = m1 = n+1` is the polynomial order plus 1 to include element boundaries.
-
-\begin{align}
-u_r &= D  u \\
-u_s &= u D^T
-\end{align}
+For the 3-D case the gradient is *locally* evaluated with a matrices of shape
+`(lx1, lx1, lx1)`. Note that `lx1 = m1 = n+1` is the polynomial order plus 1 to
+include element boundaries.  Within the subroutine `local_grad3` the derivative
+matrices $D$ and $D^T$ are multiplied against a single element of the $u$
+array using subroutine `mxm`.
 
 ```fortran
        subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
@@ -1111,9 +1115,11 @@ u_s &= u D^T
        return
        end
 ```
-The matrices $D$ and $D^T$ are initialized once and stored in the include file `DXYZ` within a common block in `navier1.f`.
+The matrices $D$ and $D^T$ are initialized once and stored in the include file
+`DXYZ` within a common block. In `navier1.f` we find the code responsible for
+generating these operators.
+
 ```fortran
- c-----------------------------------------------------------------------
        subroutine get_dgll_ptr (ip,mx,md)
  c
  c     Get pointer to GLL-GLL interpolation dgl() for pair (mx,md)
@@ -1172,7 +1178,6 @@ The matrices $D$ and $D^T$ are initialized once and stored in the include file `
        return
        end
 ```
-
 
 The subroutine `mxm` is responsible for matrix-matrix multiplication and has several optimized implementations in the file `Nek5000/core/mxm_wrapper.f`:
 
@@ -1236,7 +1241,7 @@ If `n2 = 4` the `mxf4` would be called by `mxmf2` (see `Nek5000/core/mxm_std.f`)
 
 We compute all three derivatives on a 3-D matrix $u_{(m,m,m)}$
 
-![](https://i.imgur.com/bLuIZUo.png)
+![Interpretation of 3D data array as a contiguous vector in memory](https://i.imgur.com/bLuIZUo.png){width=50%}
 
 
 #### 1st `mxm`
@@ -1256,11 +1261,12 @@ call mxm(d ,m1,u(0,0,0,e),m1,ur,m2)
 ...
 ```
 
-![](https://i.imgur.com/l0IWSTj.png)
+![Interpretation of 3D data array as a $n \times n^2$ matrix](https://i.imgur.com/l0IWSTj.png){width=50%}
 
 </div>
 
 #### 2nd `mxm`
+
 
 $u_{s} = I \otimes \hat{D} \otimes I =  u_{(m, m)} \hat{D}^T_{(m, m)}$
 
@@ -1279,7 +1285,7 @@ enddo
 ...
  ```
  
-![](https://i.imgur.com/tJYkwll.png)
+![Interpretation of 3D data array as a sequence of $n$ $n \times n$ matrices](https://i.imgur.com/tJYkwll.png){width=50%}
 
 </div>
 
@@ -1290,7 +1296,7 @@ $u_{t} =  \hat{D} \otimes I \otimes I =  u_{(m^2, m)} \hat{D}^T_{(m, m)}$
 
 <div class="cols">
 
-```fortran
+```fortran 
 subroutine local_grad3(ur,us,ut,u,N,e,D,Dt)
 Output: ur,us,ut         Input:u,N,e,D,Dt
 ...
@@ -1303,7 +1309,7 @@ return
 end
 ```
 
-![](https://i.imgur.com/1ZUtKp0.png)
+![Interpretation of 3D data array as a $n^2 \times n$ matrix](https://i.imgur.com/1ZUtKp0.png){width=50%}
 
 </div>
 
